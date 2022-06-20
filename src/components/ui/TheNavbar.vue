@@ -8,7 +8,8 @@
           ><i class="fas fa-bars"></i
         ></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
+
+      <!-- <li class="nav-item d-none d-sm-inline-block">
         <RouterLink class="nav-link" to="/dashboard">Início</RouterLink>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
@@ -16,7 +17,7 @@
       </li>
       <li v-if="!isLoggedIn" class="nav-item d-none d-sm-inline-block">
         <RouterLink class="nav-link" to="/login">Entrar</RouterLink>
-      </li>
+      </li> -->
     </ul>
 
     <!-- Right navbar links -->

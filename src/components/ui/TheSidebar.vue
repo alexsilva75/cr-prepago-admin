@@ -68,11 +68,11 @@
             </ul>
           </li>
           <li class="nav-item">
-            <RouterLink to="/dashboard/active-chats" class="nav-link">
+            <RouterLink to="/customers" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Atendimentos
-                <span class="right badge badge-danger">New</span>
+                Clientes
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </RouterLink>
           </li>

@@ -108,7 +108,7 @@ export const useAuthStore = defineStore({
 
       if (!user || !token) {
         localStorage.clear();
-        router.push("/login");
+        router.push("/home");
       } else {
         const parsedUser = JSON.parse(user);
         this.setAuthUser({
