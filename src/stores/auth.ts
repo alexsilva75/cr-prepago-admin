@@ -108,7 +108,7 @@ export const useAuthStore = defineStore({
 
       if (!user || !token) {
         localStorage.clear();
-        router.push("/home");
+        router.push("/login");
       } else {
         const parsedUser = JSON.parse(user);
         this.setAuthUser({
@@ -116,6 +116,7 @@ export const useAuthStore = defineStore({
           token,
           tokenCreatedAt,
         });
+        router.push("/dashboard");
       }
     },
 
@@ -130,7 +131,7 @@ export const useAuthStore = defineStore({
 
       clearTimeout(this.timer);
       this.authUser = null;
-      router.replace("/login");
+      router.replace("/");
     },
 
     setAuthError(hasErrors: boolean) {

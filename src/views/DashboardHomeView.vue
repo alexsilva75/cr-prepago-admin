@@ -5,7 +5,7 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>150</h3>
+          <h3>{{ transactionStore.openTransactionsCount }}</h3>
 
           <p>Pedidos pendentes</p>
         </div>
@@ -71,5 +71,13 @@
   </div>
   <!-- /.row -->
 </template>
-<script></script>
+<script lang="ts" setup>
+import { onMounted } from "vue";
+import { useTransactionStore } from "../stores/transaction";
+const transactionStore = useTransactionStore();
+
+onMounted(() => {
+  transactionStore.fetchOpenTransactionsCount();
+});
+</script>
 <style></style>
