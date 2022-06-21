@@ -6,6 +6,8 @@ export const useTransactionStore = defineStore({
   id: "transaction",
   state: () => ({
     openTransactionsCount: 0,
+    paidTransactionsCount: 0,
+    unpaidTransactionsCount: 0,
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -21,7 +23,9 @@ export const useTransactionStore = defineStore({
 
       console.log("Transactions count Response: ", response);
 
-      this.openTransactionsCount = response.data.data;
+      this.openTransactionsCount = response.data.data.waitingTransactions;
+      this.paidTransactionsCount = response.data.data.paidTransactions;
+      this.unpaidTransactionsCount = response.data.data.unpaidTransactions;
     },
   },
 });

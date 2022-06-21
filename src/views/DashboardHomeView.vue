@@ -22,7 +22,10 @@
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
+          <h3>
+            <!-- 53<sup style="font-size: 20px">%</sup> -->
+            {{ transactionStore.paidTransactionsCount }}
+          </h3>
 
           <p>Pedidos confirmados</p>
         </div>
@@ -35,8 +38,8 @@
       </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-6">
-      <!-- small box -->
+    <!-- <div class="col-lg-3 col-6">
+      
       <div class="small-box bg-warning">
         <div class="inner">
           <h3>44</h3>
@@ -49,7 +52,7 @@
           >Detalhes <i class="fas fa-arrow-circle-right"></i
         ></a>
       </div>
-    </div>
+    </div> -->
     <!-- ./col -->
     <div class="col-lg-3 col-6">
       <!-- small box -->

@@ -108,7 +108,7 @@ export const useAuthStore = defineStore({
 
       if (!user || !token) {
         localStorage.clear();
-        router.push("/login");
+        router.push("/");
       } else {
         const parsedUser = JSON.parse(user);
         this.setAuthUser({
@@ -122,7 +122,15 @@ export const useAuthStore = defineStore({
 
     async logout() {
       const response = await axiosInstance
-        .post(`${options.baseURL}/api/v1/auth/logout`, {})
+        .post(
+          `${options.baseURL}/api/v1/auth/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          }
+        )
         .catch((_) => {
           localStorage.clear();
         });
