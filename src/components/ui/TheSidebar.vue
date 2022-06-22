@@ -76,7 +76,15 @@
               </p>
             </RouterLink>
           </li>
-
+          <li class="nav-item">
+            <RouterLink to="/customers" class="nav-link">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Pedidos
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </RouterLink>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>

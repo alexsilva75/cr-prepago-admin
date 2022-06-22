@@ -58,7 +58,7 @@
       <!-- small box -->
       <div class="small-box bg-danger">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{ customerStore.connectedCustomers }}</h3>
 
           <p>Usuários conectados</p>
         </div>
@@ -77,10 +77,14 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { useTransactionStore } from "../stores/transaction";
+import { useCustomerStore } from "@/stores/customers";
+
 const transactionStore = useTransactionStore();
+const customerStore = useCustomerStore();
 
 onMounted(() => {
   transactionStore.fetchOpenTransactionsCount();
+  customerStore.fetchConnectedCustomers();
 });
 </script>
 <style></style>
