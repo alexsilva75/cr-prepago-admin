@@ -77,7 +77,7 @@
             </RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink to="/customers" class="nav-link">
+            <RouterLink to="/transactions" class="nav-link">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>
                 Pedidos
@@ -166,7 +166,7 @@ async function logout() {
 
 /* .router-link-active {
   background-color: #007bff;
-  color: #fff;
+  color: #fff;      
   stroke: #fff;
 } */
 

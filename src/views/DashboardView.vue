@@ -16,20 +16,18 @@
         </div>
       </div>
     </div>
-    <!-- <div class="container">
-      <h1>Sessões ativas</h1>
-      <active-chats-list-vue></active-chats-list-vue>
-    </div> -->
 
     <DashboardContentBase>
       <RouterView></RouterView>
     </DashboardContentBase>
   </div>
+  <TheFooter></TheFooter>
 </template>
 
 <script lang="ts" setup>
 //import ActiveChatsListVue from "@/components/ActiveChatsList.vue";
 import TheNavbar from "../components/ui/TheNavbar.vue";
 import TheSidebar from "../components/ui/TheSidebar.vue";
+import TheFooter from "@/components/ui/TheFooter.vue";
 import DashboardContentBase from "../components/DashboardContentBase.vue";
 </script>

@@ -20,9 +20,9 @@
                 />
               </div>
               <button type="submit" class="btn btn-primary">Entrar</button>
-              <button type="button" @click="logout" class="btn btn-warning">
+              <!-- <button type="button" @click="logout" class="btn btn-warning">
                 Sair
-              </button>
+              </button> -->
               <!-- <button @click="getToken" class="btn btn-info">Token</button>
               <button @click="getUser" class="btn btn-info">User</button> -->
             </form>

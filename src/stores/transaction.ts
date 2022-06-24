@@ -1,3 +1,4 @@
+import { useAuthStore } from "./auth";
 import { defineStore } from "pinia";
 import axios from "axios";
 import options from "../globalOptions";
@@ -8,6 +9,8 @@ export const useTransactionStore = defineStore({
     openTransactionsCount: 0,
     paidTransactionsCount: 0,
     unpaidTransactionsCount: 0,
+    ///openTransactions: [],
+    filteredTransactions: [],
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -26,6 +29,107 @@ export const useTransactionStore = defineStore({
       this.openTransactionsCount = response.data.data.waitingTransactions;
       this.paidTransactionsCount = response.data.data.paidTransactions;
       this.unpaidTransactionsCount = response.data.data.unpaidTransactions;
+    },
+
+    async loadActiveTransactions() {
+      const authStore = useAuthStore();
+
+      const baseURL = options.baseURL;
+
+      const token = authStore.token;
+
+      const response = await axios.get(
+        `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      this.filteredTransactions = response.data.data.data;
+
+      console.log("Open Transactions: ", this.filteredTransactions);
+    },
+    async queryTransactions(payload: any) {
+      const baseURL = options.baseURL;
+
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      // Expected conditions format: conditions=gn_status:=:waiting
+      const { conditions } = payload;
+
+      let url = `${baseURL}api/v1/transacao`;
+
+      if (conditions) {
+        url += `?conditions=${conditions}`;
+      }
+
+      //console.log("URL: ", url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const transactions = response.data.data;
+      this.filteredTransactions = transactions;
+    },
+    async queryActiveTransaction(params: any) {
+      const baseURL = options.baseURL;
+
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      const response = await axios.get(
+        `${baseURL}api/v1/transacao/${params.charge_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const activeTransactions = this.filteredTransactions;
+
+      const transactionIndex = activeTransactions.findIndex(
+        (trans: any) => trans.gn_charge_id === params.charge_id
+      );
+
+      const transaction = activeTransactions[transactionIndex] as any;
+
+      if (transaction.gn_status !== response.data.data.data.status) {
+        this.changeTransactionStatus(
+          transaction.id,
+          transaction.charge_id,
+          response.data.data.data.status
+        );
+      }
+    }, ////
+    async changeTransactionStatus(
+      transactionId: number,
+      chargeId: number,
+      status: string
+    ) {
+      const baseURL = options.baseURL;
+
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      await axios.post(
+        `${baseURL}api/v1/transacao/${transactionId}`,
+        {
+          chargeId,
+          gn_status: status,
+          _method: "PUT",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      this.loadActiveTransactions();
     },
   },
 });

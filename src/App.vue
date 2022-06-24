@@ -10,11 +10,9 @@ onMounted(function () {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper"></div>
-  </header>
-
-  <RouterView />
+  <div class="wrapper">
+    <RouterView />
+  </div>
 </template>
 
 <style>
