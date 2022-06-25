@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
+    "moment": "^2.29.3",
     "pinia": "^2.0.14",
     "vue": "^3.2.36",
+    "vue-money-format": "^1.2.4",
     "vue-router": "^4.0.15"
   },
   "devDependencies": {

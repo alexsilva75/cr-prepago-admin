@@ -3,6 +3,10 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import options from "../globalOptions";
 
+interface Dictionary {
+  [key: string]: string;
+}
+
 export const useTransactionStore = defineStore({
   id: "transaction",
   state: () => ({
@@ -11,6 +15,15 @@ export const useTransactionStore = defineStore({
     unpaidTransactionsCount: 0,
     ///openTransactions: [],
     filteredTransactions: [],
+    brPaymentModes: {
+      banking_billet: "Boleto Bancário",
+      credit_card: "Cartão de Crédito",
+    },
+    brTransactionStatus: {
+      waiting: "Aberta",
+      paid: "Confirmada",
+      unpaid: "Não Paga",
+    },
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -19,6 +32,7 @@ export const useTransactionStore = defineStore({
     // increment() {
     //   this.counter++;
     // },
+
     async fetchOpenTransactionsCount() {
       const response = await axios.get(
         `${options.baseURL}/api/v1/transacoes/count`
@@ -60,7 +74,7 @@ export const useTransactionStore = defineStore({
       // Expected conditions format: conditions=gn_status:=:waiting
       const { conditions } = payload;
 
-      let url = `${baseURL}api/v1/transacao`;
+      let url = `${baseURL}/api/v1/transacao`;
 
       if (conditions) {
         url += `?conditions=${conditions}`;
@@ -82,7 +96,7 @@ export const useTransactionStore = defineStore({
       const token = authStore.token;
 
       const response = await axios.get(
-        `${baseURL}api/v1/transacao/${params.charge_id}`,
+        `${baseURL}/api/v1/transacao/${params.charge_id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -117,7 +131,7 @@ export const useTransactionStore = defineStore({
       const token = authStore.token;
 
       await axios.post(
-        `${baseURL}api/v1/transacao/${transactionId}`,
+        `${baseURL}/api/v1/transacao/${transactionId}`,
         {
           chargeId,
           gn_status: status,
@@ -129,7 +143,7 @@ export const useTransactionStore = defineStore({
           },
         }
       );
-      this.loadActiveTransactions();
+      //this.loadActiveTransactions();
     },
   },
 });

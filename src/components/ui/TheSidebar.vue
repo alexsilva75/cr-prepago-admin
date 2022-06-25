@@ -99,7 +99,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <RouterLink to="/dashboard" class="nav-link">
+                <RouterLink to="/mailbox" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Caixa de Entrada</p>
                 </RouterLink>
