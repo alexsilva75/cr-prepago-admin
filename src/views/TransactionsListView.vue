@@ -111,8 +111,7 @@ onMounted(async () => {
 
   setInterval(async () => {
     //this.$store.dispatch("loadActiveTransactions");
-    await transactionStore.fetchOpenTransactionsCount();
-    await transactionStore.loadActiveTransactions();
+
     //this.$store.dispatch("setActiveConnsCount");
 
     filteredTransactions.value.forEach((transaction: Transaction) => {
@@ -121,14 +120,17 @@ onMounted(async () => {
         charge_id: transaction.gn_charge_id,
       });
     });
+
+    await transactionStore.fetchOpenTransactionsCount();
+    await transactionStore.loadActiveTransactions();
     //console.log("Transaction charge_id: ", transaction.gn_charge_id);
     //console.log(this.$store);
   }, 10000);
 });
 
-watch(filteredTransactions, (newValue) => {
-  console.log("New Transactions: ", newValue);
-});
+// watch(filteredTransactions, (newValue) => {
+//   console.log("New Transactions: ", newValue);
+// });
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("pt-BR", {

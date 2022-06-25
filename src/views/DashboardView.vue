@@ -1,6 +1,6 @@
 <template>
   <TheNavbar></TheNavbar>
-  <TheSidebar></TheSidebar>
+  <TheSidebar :new-messages-count="newMessagesCount"></TheSidebar>
   <div class="content-wrapper">
     <div class="content-header">
       <div class="container-fluid">
@@ -26,8 +26,22 @@
 
 <script lang="ts" setup>
 //import ActiveChatsListVue from "@/components/ActiveChatsList.vue";
+import { onMounted, watch } from "vue";
 import TheNavbar from "../components/ui/TheNavbar.vue";
 import TheSidebar from "../components/ui/TheSidebar.vue";
 import TheFooter from "@/components/ui/TheFooter.vue";
 import DashboardContentBase from "../components/DashboardContentBase.vue";
+import { useMessageStore } from "@/stores/messages";
+import { storeToRefs } from "pinia";
+
+const messageStore = useMessageStore();
+const { newMessagesCount } = storeToRefs(messageStore);
+onMounted(async () => {
+  //
+  await messageStore.loadNewMessagesCount();
+});
+
+watch(newMessagesCount, (newValue) => {
+  console.log("New Messages Count", newMessagesCount.value);
+});
 </script>

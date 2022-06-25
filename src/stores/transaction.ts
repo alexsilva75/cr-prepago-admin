@@ -112,12 +112,14 @@ export const useTransactionStore = defineStore({
 
       const transaction = activeTransactions[transactionIndex] as any;
 
-      if (transaction.gn_status !== response.data.data.data.status) {
-        this.changeTransactionStatus(
-          transaction.id,
-          transaction.charge_id,
-          response.data.data.data.status
-        );
+      if (transaction) {
+        if (transaction.gn_status !== response.data.data.data.status) {
+          this.changeTransactionStatus(
+            transaction.id,
+            transaction.charge_id,
+            response.data.data.data.status
+          );
+        }
       }
     }, ////
     async changeTransactionStatus(

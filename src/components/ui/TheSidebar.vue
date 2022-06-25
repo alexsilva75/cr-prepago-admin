@@ -92,7 +92,7 @@
                 Mensagens
                 <span class="badge badge-info">
                   <!-- {{ notifications.length }}  -->
-                  Nova(s)</span
+                  {{ props.newMessagesCount }}</span
                 >
                 <i class="fas fa-angle-left right"></i>
               </p>
@@ -105,12 +105,12 @@
                 </RouterLink>
               </li>
 
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lidas</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
         </ul>
@@ -124,6 +124,23 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+// import { onMounted, watch } from "vue";
+const props = defineProps({
+  newMessagesCount: { type: Number, default: () => 0 },
+});
+
+// import { useMessageStore } from "@/stores/messages";
+
+// const messageStore = useMessageStore();
+// const { newMessagesCount } = storeToRefs(messageStore);
+// onMounted(async () => {
+//   //
+//   await messageStore.loadNewMessages();
+// });
+
+// watch(newMessagesCount, (newValue) => {
+//   console.log("New Messages Count", newMessagesCount.value);
+// });
 
 const store = useAuthStore();
 
