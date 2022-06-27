@@ -86,6 +86,12 @@
             </RouterLink>
           </li>
           <li class="nav-item">
+            <RouterLink to="/quota-products" class="nav-link">
+              <i class="nav-icon fas fa-box"></i>
+              <p>Pacotes de Dados</p>
+            </RouterLink>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>

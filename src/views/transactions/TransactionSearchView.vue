@@ -63,7 +63,14 @@
                   }}</span>
                 </td>
                 <td>
-                  <button class="btn btn-info">Detalhes</button>
+                  <RouterLink
+                    :to="{
+                      name: 'transactionDetail',
+                      params: { transactionId: transaction.id },
+                    }"
+                    class="btn btn-info"
+                    >Detalhes</RouterLink
+                  >
                 </td>
               </tr>
             </tbody>
@@ -81,7 +88,7 @@
 <script lang="ts" setup>
 import * as moment from "moment";
 import "moment/locale/pt-br";
-import type Transaction from "../models/Transaction";
+import type Transaction from "../../models/Transaction";
 // import MoneyFormat from "vue-money-format";
 
 import { onMounted, watch, ref } from "vue";
@@ -89,13 +96,9 @@ import { storeToRefs } from "pinia";
 import { useTransactionStore } from "@/stores/transaction";
 import TheSpinner from "@/components/ui/TheSpinner.vue";
 
-// interface Transaction {
-//   gn_charge_id: number;
-//   username: string;
-//   gn_total: number;
-//   created_at: string;
-//   gn_status: string;
-// }
+const props = defineProps({
+  paymentStatus: { type: String, required: false },
+});
 
 const isLoading = ref(false);
 
@@ -104,33 +107,15 @@ const transactionStore = useTransactionStore();
 const { filteredTransactions } = storeToRefs(transactionStore);
 
 onMounted(async () => {
+  console.log("Mounting Transaction Search");
   isLoading.value = true;
-  await transactionStore.loadActiveTransactions();
-  //console.log("Loaded transactions", filteredTransactions);
+  if (props.paymentStatus) {
+    await transactionStore.loadTransactions(props.paymentStatus);
+  } else {
+    await transactionStore.loadTransactions("");
+  }
   isLoading.value = false;
-
-  setInterval(async () => {
-    //this.$store.dispatch("loadActiveTransactions");
-
-    //this.$store.dispatch("setActiveConnsCount");
-
-    filteredTransactions.value.forEach((transaction: Transaction) => {
-      //console.log("Setting Interval.....");
-      transactionStore.queryActiveTransaction({
-        charge_id: transaction.gn_charge_id,
-      });
-    });
-
-    await transactionStore.fetchOpenTransactionsCount();
-    await transactionStore.loadActiveTransactions();
-    //console.log("Transaction charge_id: ", transaction.gn_charge_id);
-    //console.log(this.$store);
-  }, 10000);
 });
-
-// watch(filteredTransactions, (newValue) => {
-//   console.log("New Transactions: ", newValue);
-// });
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("pt-BR", {

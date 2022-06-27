@@ -59,7 +59,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="customer in filteredCustomers">
+              <tr :key="customer.id" v-for="customer in filteredCustomers">
                 <td>{{ customer.id }}</td>
                 <td>{{ customer.nome + " " + customer.sobrenome }}</td>
                 <td>{{ customer.created_at }}</td>

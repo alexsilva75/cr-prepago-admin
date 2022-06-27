@@ -2,10 +2,30 @@ import { useAuthStore } from "./auth";
 import { defineStore } from "pinia";
 import axios from "axios";
 import options from "../globalOptions";
+import type Transaction from "../models/Transaction";
 
 interface Dictionary {
   [key: string]: string;
 }
+
+// interface TransactionState {
+//   openTransactionsCount: number;
+//   paidTransactionsCount: number;
+//   unpaidTransactionsCount: number;
+
+//   filteredTransactions: Transaction[];
+//   activeTransactions: Transaction[];
+//   selectedTransaction: Transaction;
+//   brPaymentModes: {
+//     banking_billet: string;
+//     credit_card: string;
+//   };
+//   brTransactionStatus: {
+//     waiting: string;
+//     paid: string;
+//     unpaid: string;
+//   };
+// }
 
 export const useTransactionStore = defineStore({
   id: "transaction",
@@ -15,15 +35,17 @@ export const useTransactionStore = defineStore({
     unpaidTransactionsCount: 0,
     ///openTransactions: [],
     filteredTransactions: [],
+    activeTransactions: [],
+    selectedTransaction: {} as Transaction | any,
     brPaymentModes: {
       banking_billet: "Boleto Bancário",
       credit_card: "Cartão de Crédito",
-    },
+    } as Dictionary,
     brTransactionStatus: {
       waiting: "Aberta",
       paid: "Confirmada",
       unpaid: "Não Paga",
-    },
+    } as Dictionary,
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -45,6 +67,27 @@ export const useTransactionStore = defineStore({
       this.unpaidTransactionsCount = response.data.data.unpaidTransactions;
     },
 
+    async loadTransactions(status: string) {
+      const authStore = useAuthStore();
+
+      const baseURL = options.baseURL;
+
+      const token = authStore.token;
+
+      let url = `${baseURL}/api/v1/transacao`;
+      if (status) {
+        url += `?conditions=gn_status:=:${status}`;
+      }
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      this.filteredTransactions = response.data.data.data;
+
+      console.log("Open Transactions: ", this.filteredTransactions);
+    },
     async loadActiveTransactions() {
       const authStore = useAuthStore();
 
@@ -52,19 +95,19 @@ export const useTransactionStore = defineStore({
 
       const token = authStore.token;
 
-      const response = await axios.get(
-        `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      let url = `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`;
 
-      this.filteredTransactions = response.data.data.data;
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
-      console.log("Open Transactions: ", this.filteredTransactions);
+      this.activeTransactions = response.data.data.data;
+
+      console.log("Open Transactions: ", this.activeTransactions);
     },
+
     async queryTransactions(payload: any) {
       const baseURL = options.baseURL;
 
@@ -146,6 +189,25 @@ export const useTransactionStore = defineStore({
         }
       );
       //this.loadActiveTransactions();
+    },
+    async fetchSelectedTransaction(transactionId: number) {
+      const baseURL = options.baseURL;
+
+      const authStore = useAuthStore();
+      const token = authStore.token;
+
+      const response = await axios.get(
+        `${baseURL}/api/v1/transacao/${transactionId}/detail`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      this.selectedTransaction = response.data.transaction;
+      // this.selectedTransaction.cliente = response.data.transaction.cliente;
+      console.log("Selected transaction", this.selectedTransaction);
     },
   },
 });

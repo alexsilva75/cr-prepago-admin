@@ -7,6 +7,7 @@
 //     public gn_status: string
 //   ) {}
 // }
+import type Customer from "./Customer";
 
 export default interface Transaction {
   gn_charge_id: number;
@@ -15,4 +16,5 @@ export default interface Transaction {
   created_at: string;
   gn_status: string;
   payment_mode?: string;
+  cliente?: Customer;
 }

@@ -12,9 +12,9 @@
         <div class="icon">
           <i class="ion ion-bag"></i>
         </div>
-        <a href="#" class="small-box-footer"
+        <RouterLink to="/transactions" class="small-box-footer"
           >Detalhes <i class="fas fa-arrow-circle-right"></i
-        ></a>
+        ></RouterLink>
       </div>
     </div>
     <!-- ./col -->
@@ -32,9 +32,9 @@
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="#" class="small-box-footer"
+        <RouterLink to="/transactions/search/paid" class="small-box-footer"
           >Detalhes <i class="fas fa-arrow-circle-right"></i
-        ></a>
+        ></RouterLink>
       </div>
     </div>
     <!-- ./col -->

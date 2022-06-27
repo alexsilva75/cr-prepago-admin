@@ -1,10 +1,12 @@
 <template>
   <footer class="main-footer">
     <strong
-      >Copyright &copy; 2014-2021
-      <a href="https://adminlte.io">AdminLTE.io</a>.</strong
+      >Copyright &copy; 2022
+      <a href="https://portalcrtelecom.com.br">CR Telecom</a>.</strong
     >
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block"><b>Version</b> 3.2.0</div>
+    Todos os direitos reservados.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>O seu provedor de acesso rápido</b>
+    </div>
   </footer>
 </template>

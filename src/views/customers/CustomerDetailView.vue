@@ -122,7 +122,7 @@
                                 :class="{
                                   'bg-success':
                                     transaction.gn_status === 'paid',
-                                  'bg-info':
+                                  'bg-warning':
                                     transaction.gn_status === 'waiting',
                                   'bg-danger':
                                     transaction.gn_status === 'unpaid',

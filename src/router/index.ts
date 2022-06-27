@@ -2,10 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
 import DashboardViewVue from "@/views/DashboardView.vue";
 import DashboardHomeView from "@/views/DashboardHomeView.vue";
-import CustomersView from "@/views/CustomersView.vue";
-import TransactionsListViewVue from "@/views/TransactionsListView.vue";
+import CustomersView from "@/views/customers/CustomersView.vue";
+import ActiveTransactionsView from "@/views/transactions/ActiveTransactionsView.vue";
+import TransactionSearchViewVue from "@/views/transactions/TransactionSearchView.vue";
 import MailBoxViewVue from "@/views/MailBoxView.vue";
 import CustomerDetailViewVue from "@/views/customers/CustomerDetailView.vue";
+import TransactionDetailViewVue from "@/views/transactions/TransactionDetailView.vue";
+import QuotaProductListViewVue from "@/views/quota-products/QuotaProductListView.vue";
+import NewQuotaViewVue from "@/views/quota-products/NewQuotaView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +44,30 @@ const router = createRouter({
         {
           path: "/transactions",
           name: "transactions",
-          component: TransactionsListViewVue,
+          component: ActiveTransactionsView,
+          props: true,
+        },
+        {
+          path: "/transactions/search/:paymentStatus",
+          name: "transactionsSearch",
+          component: TransactionSearchViewVue,
+          props: true,
+        },
+        {
+          path: "/transactions/:transactionId/detail",
+          name: "transactionDetail",
+          component: TransactionDetailViewVue,
+          props: true,
+        },
+        {
+          path: "/quota-products",
+          name: "quota-products",
+          component: QuotaProductListViewVue,
+        },
+        {
+          path: "/quota-products/new",
+          name: "newQuotaProduct",
+          component: NewQuotaViewVue,
         },
         {
           path: "/mailbox",

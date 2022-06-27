@@ -1,0 +1,76 @@
+<template>
+  <!-- general form elements -->
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Novo Pacote de Dados</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form @submit.prevent="submitForm">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Rótulo do Pacote</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            placeholder="Ex.: 2GB"
+            v-model="formInputs.label"
+          />
+        </div>
+        <div class="form-group">
+          <label for="price">Preço</label>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            v-model="formInputs.price"
+          />
+        </div>
+        <div class="form-group">
+          <label for="quota">Cota (em GB)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="quota"
+            v-model="formInputs.byte_quota"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputFile">Descrição</label>
+          <textarea
+            class="form-control"
+            name=""
+            id=""
+            cols="30"
+            rows="3"
+            v-model="formInputs.description"
+          ></textarea>
+        </div>
+      </div>
+      <!-- /.card-body -->
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+  <!-- /.card -->
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+// import CurrencyInput from "../../components/ui/CurrencyInput.vue";
+
+const quotaPrice = ref(0);
+
+const formInputs = ref({
+  label: "",
+  description: "",
+  byte_quota: 0,
+  price: "",
+});
+async function submitForm() {
+  console.log("Form Values: ", formInputs);
+}
+</script>

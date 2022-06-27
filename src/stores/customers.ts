@@ -9,7 +9,7 @@ export const useCustomerStore = defineStore({
     connectedCustomers: 0,
     selectedLetter: "A",
     filteredCustomers: [],
-    selectedCustomer: {},
+    selectedCustomer: {} as Customer,
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -44,25 +44,27 @@ export const useCustomerStore = defineStore({
     },
 
     async fetchSelectedCustomer(customerId: number) {
-      const authStore = useAuthStore();
-      const response = await axios.get(
-        `${options.baseURL}/api/v1/customers/${customerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authStore.token}`,
-          },
-        }
-      );
+      if (customerId) {
+        const authStore = useAuthStore();
+        const response = await axios.get(
+          `${options.baseURL}/api/v1/customers/${customerId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authStore.token}`,
+            },
+          }
+        );
 
-      this.selectedCustomer = response.data.customer;
-      this.selectedCustomer["transactions"] =
-        response.data.customer.transactions.data;
+        this.selectedCustomer = response.data.customer;
+        this.selectedCustomer["transactions"] =
+          response.data.customer.transactions.data;
 
-      console.log("Selected Customer: ", this.selectedCustomer);
-      console.log(
-        "Selected Customer Transactions: ",
-        this.selectedCustomer.transactions
-      );
+        console.log("Selected Customer: ", this.selectedCustomer);
+        console.log(
+          "Selected Customer Transactions: ",
+          this.selectedCustomer.transactions
+        );
+      }
     },
   },
 });
