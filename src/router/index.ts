@@ -5,6 +5,7 @@ import DashboardHomeView from "@/views/DashboardHomeView.vue";
 import CustomersView from "@/views/CustomersView.vue";
 import TransactionsListViewVue from "@/views/TransactionsListView.vue";
 import MailBoxViewVue from "@/views/MailBoxView.vue";
+import CustomerDetailViewVue from "@/views/customers/CustomerDetailView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,7 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       component: DashboardViewVue,
-      redirect: "./home",
+      redirect: "/home",
       children: [
         {
           path: "/home",
@@ -29,6 +30,12 @@ const router = createRouter({
           path: "/customers",
           name: "customers",
           component: CustomersView,
+        },
+        {
+          path: "/customer/detail/:customerId",
+          name: "customerDetail",
+          component: CustomerDetailViewVue,
+          props: true,
         },
         {
           path: "/transactions",

@@ -6,32 +6,15 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">A</a></li>
-      <li class="page-item"><a class="page-link" href="#">B</a></li>
-      <li class="page-item"><a class="page-link" href="#">C</a></li>
-      <li class="page-item"><a class="page-link" href="#">D</a></li>
-      <li class="page-item"><a class="page-link" href="#">E</a></li>
-      <li class="page-item"><a class="page-link" href="#">F</a></li>
-      <li class="page-item"><a class="page-link" href="#">G</a></li>
-      <li class="page-item"><a class="page-link" href="#">H</a></li>
-      <li class="page-item"><a class="page-link" href="#">I</a></li>
-      <li class="page-item"><a class="page-link" href="#">J</a></li>
-      <li class="page-item"><a class="page-link" href="#">K</a></li>
-      <li class="page-item"><a class="page-link" href="#">L</a></li>
-      <li class="page-item"><a class="page-link" href="#">M</a></li>
-      <li class="page-item"><a class="page-link" href="#">N</a></li>
-      <li class="page-item"><a class="page-link" href="#">O</a></li>
-      <li class="page-item"><a class="page-link" href="#">P</a></li>
-      <li class="page-item"><a class="page-link" href="#">Q</a></li>
-      <li class="page-item"><a class="page-link" href="#">R</a></li>
-      <li class="page-item"><a class="page-link" href="#">S</a></li>
-      <li class="page-item"><a class="page-link" href="#">T</a></li>
-      <li class="page-item"><a class="page-link" href="#">U</a></li>
-      <li class="page-item"><a class="page-link" href="#">V</a></li>
-      <li class="page-item"><a class="page-link" href="#">W</a></li>
-      <li class="page-item"><a class="page-link" href="#">X</a></li>
-      <li class="page-item"><a class="page-link" href="#">Y</a></li>
-      <li class="page-item"><a class="page-link" href="#">Z</a></li>
+      <li class="page-item" :key="letter" v-for="letter in alphabet">
+        <a
+          class="page-link"
+          @click.prevent="setSelectedLetter(letter)"
+          href="#"
+          >{{ letter }}</a
+        >
+      </li>
+
       <li class="page-item">
         <a class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
@@ -69,10 +52,10 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>User</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Reason</th>
+                <th>Cliente</th>
+                <th>Registro</th>
+                <th>Endereço</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -80,9 +63,18 @@
                 <td>{{ customer.id }}</td>
                 <td>{{ customer.nome + " " + customer.sobrenome }}</td>
                 <td>{{ customer.created_at }}</td>
-                <td><span class="tag tag-success">Approved</span></td>
                 <td>
                   {{ customer.endereco }}
+                </td>
+                <td>
+                  <RouterLink
+                    class="btn btn-info"
+                    :to="{
+                      name: 'customerDetail',
+                      params: { customerId: customer.id },
+                    }"
+                    >Detalhes</RouterLink
+                  >
                 </td>
               </tr>
             </tbody>
@@ -95,15 +87,52 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useCustomerStore } from "@/stores/customers";
 import { storeToRefs } from "pinia";
 
+const alphabet = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
+
 const customerStore = useCustomerStore();
 
-const { filteredCustomers } = storeToRefs(customerStore);
+const { filteredCustomers, selectedLetter } = storeToRefs(customerStore);
 
 onMounted(async () => {
   await customerStore.loadFilteredCustomers();
 });
+
+watch(selectedLetter, (_) => {
+  customerStore.loadFilteredCustomers();
+});
+
+function setSelectedLetter(letter: string) {
+  selectedLetter.value = letter;
+}
 </script>
