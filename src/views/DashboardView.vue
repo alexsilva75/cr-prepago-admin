@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 //import ActiveChatsListVue from "@/components/ActiveChatsList.vue";
-import { onMounted, watch } from "vue";
+import { onMounted, watch, provide } from "vue";
 import TheNavbar from "../components/ui/TheNavbar.vue";
 import TheSidebar from "../components/ui/TheSidebar.vue";
 import TheFooter from "@/components/ui/TheFooter.vue";
@@ -49,4 +49,13 @@ onMounted(async () => {
 watch(newMessagesCount, (newValue) => {
   console.log("New Messages Count", newMessagesCount.value);
 });
+
+function formatPrice(price: number) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(price / 100);
+}
+
+provide("formatPrice", formatPrice);
 </script>

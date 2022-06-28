@@ -17,16 +17,15 @@ export const useQuotaProductStore = defineStore({
       const baseURL = options.baseURL;
       const token = authStore.token;
 
-      const response = await axios.get(
-        `${baseURL}/api/v1/transacao/quota-products`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const response = await axios.get(`${baseURL}/api/v1/quota-products`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
-      this.quotaProducts = response.data.quota_products;
+      this.quotaProducts = response.data.quota_products.data;
+
+      console.log("Quota Products: ", this.quotaProducts);
     },
 
     async saveNewQuota(quota: any) {
@@ -35,7 +34,7 @@ export const useQuotaProductStore = defineStore({
       const token = authStore.token;
 
       const response = await axios.post(
-        `${baseURL}/api/v1/transacao/quota-products`,
+        `${baseURL}/api/v1/quota-products`,
         quota,
         {
           headers: {

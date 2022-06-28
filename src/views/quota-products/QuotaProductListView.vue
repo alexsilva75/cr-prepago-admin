@@ -44,15 +44,23 @@
         <thead>
           <tr>
             <th>Pacote</th>
+            <th>Valor</th>
             <th>Descrição</th>
             <th>Cota em Bytes</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr :key="quota.id" v-for="quota in quotaProducts">
-            <td>{{ quota.label }}</td>
-            <td>{{ quota.description }}</td>
-            <td>{{ quota.byte_quota }}</td>
+          <tr :key="quota?.id" v-for="quota in quotaProducts">
+            <td>{{ quota?.label }}</td>
+            <td>{{ (formatPrice as Function)(quota?.price * 100) }}</td>
+            <td>{{ quota?.description }}</td>
+            <td>{{ quota?.byte_quota }}</td>
+            <td>
+              <RouterLink to="/" class="btn btn-info">
+                <i class="fas fa-edit"></i>
+              </RouterLink>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -63,7 +71,7 @@
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, inject } from "vue";
 import { useQuotaProductStore } from "@/stores/quota-product";
 
 const quotaProductStore = useQuotaProductStore();
@@ -73,4 +81,6 @@ const { quotaProducts } = storeToRefs(quotaProductStore);
 onMounted(async () => {
   await quotaProductStore.loadProductPackets();
 });
+
+const formatPrice = inject("formatPrice");
 </script>

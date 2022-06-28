@@ -43,7 +43,7 @@
               >
                 <td>{{ transaction.gn_charge_id }}</td>
                 <td>{{ transaction.username }}</td>
-                <td>{{ formatPrice(transaction.gn_total) }}</td>
+                <td>{{ (formatPrice as Function)(transaction.gn_total) }}</td>
                 <td>
                   {{
                     moment(transaction.created_at).format(
@@ -91,7 +91,7 @@ import "moment/locale/pt-br";
 import type Transaction from "../../models/Transaction";
 // import MoneyFormat from "vue-money-format";
 
-import { onMounted, watch, ref } from "vue";
+import { onMounted, watch, ref, inject } from "vue";
 import { storeToRefs } from "pinia";
 import { useTransactionStore } from "@/stores/transaction";
 import TheSpinner from "@/components/ui/TheSpinner.vue";
@@ -123,10 +123,5 @@ onMounted(async () => {
   }
 });
 
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(price / 100);
-}
+const formatPrice = inject("formatPrice");
 </script>
