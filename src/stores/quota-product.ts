@@ -7,6 +7,7 @@ export const useQuotaProductStore = defineStore({
   id: "productPacket",
   state: () => ({
     quotaProducts: [] as QuotaProduct[],
+    selectedQuota: {} as QuotaProduct,
   }),
   getters: {
     // doubleCount: (state) => state.counter * 2,
@@ -42,6 +43,25 @@ export const useQuotaProductStore = defineStore({
           },
         }
       );
+    },
+
+    async fetchSelectedQuota(quotaId: number) {
+      const authStore = useAuthStore();
+      const baseURL = options.baseURL;
+      const token = authStore.token;
+
+      const response = await axios.get(
+        `${baseURL}/api/v1/quota-products/${quotaId}`,
+
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      console.log("Selected Quota: ", response);
+
+      this.selectedQuota = response.data.quota_product;
     },
   },
 });

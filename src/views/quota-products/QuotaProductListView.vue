@@ -57,30 +57,47 @@
             <td>{{ quota?.description }}</td>
             <td>{{ quota?.byte_quota }}</td>
             <td>
-              <RouterLink to="/" class="btn btn-info">
+              <button
+                class="btn btn-info"
+                data-toggle="modal"
+                data-target="#modal-default"
+                @click="selectQuota(quota.id)"
+              >
                 <i class="fas fa-edit"></i>
-              </RouterLink>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <!-- /.card-body -->
+
+    <EditQuotaModal
+      id="modal-default"
+      :edit-quota="selectedQuota"
+    ></EditQuotaModal>
   </div>
   <!-- /.card -->
 </template>
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
-import { onMounted, inject } from "vue";
+import { onMounted, inject, provide } from "vue";
 import { useQuotaProductStore } from "@/stores/quota-product";
+import TheModal from "@/components/ui/TheModal.vue";
+import EditQuotaModal from "@/components/quota-products/EditQuotaModal.vue";
+// import TheModal from "../../components/ui/TheModal.vue";
 
 const quotaProductStore = useQuotaProductStore();
 
-const { quotaProducts } = storeToRefs(quotaProductStore);
+const { quotaProducts, selectedQuota } = storeToRefs(quotaProductStore);
 
 onMounted(async () => {
   await quotaProductStore.loadProductPackets();
 });
 
 const formatPrice = inject("formatPrice");
+
+async function selectQuota(quotaId: number) {
+  await quotaProductStore.fetchSelectedQuota(quotaId);
+}
 </script>
