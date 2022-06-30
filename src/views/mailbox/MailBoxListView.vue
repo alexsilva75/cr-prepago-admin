@@ -54,9 +54,16 @@
           <!-- /.float-right -->
         </div>
         <div class="table-responsive mailbox-messages">
-          <table class="table table-hover table-striped">
+          <table
+            v-if="messages.length > 0"
+            class="table table-hover table-striped"
+          >
             <tbody>
-              <tr :key="message.id" v-for="message in props.messages">
+              <tr
+                :key="message.id"
+                v-for="message in messages"
+                @click="readMessage(message.id)"
+              >
                 <td>
                   <div class="icheck-primary">
                     <input type="checkbox" value="" id="check2" />
@@ -67,7 +74,13 @@
                   <a href="#"><i class="fas fa-star-o text-warning"></i></a>
                 </td>
                 <td class="mailbox-name">
-                  <a href="read-mail.html">{{ message.remetente }}</a>
+                  <RouterLink
+                    :to="{
+                      name: 'readMail',
+                      params: { messageId: message.id },
+                    }"
+                    >{{ message.remetente }}</RouterLink
+                  >
                 </td>
                 <td class="mailbox-subject">
                   <b>{{ message.assunto }}</b>
@@ -82,6 +95,11 @@
             </tbody>
           </table>
           <!-- /.table -->
+          <div v-else>
+            <p class="text-center text-muted">
+              Não há mensagens para ser exibidas.
+            </p>
+          </div>
         </div>
         <!-- /.mail-box-messages -->
       </div>
@@ -125,23 +143,38 @@
   <!-- /.col -->
 </template>
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, watch, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import moment from "moment/dist/moment";
 import localization from "moment/dist/locale/pt-br";
+//import type Message from "@/models/Message";
+import { useMessageStore } from "@/stores/messages";
+import { storeToRefs } from "pinia";
+const messageStore = useMessageStore();
+interface Props {
+  messageStatus: string;
+}
 
-const props = defineProps({
-  messages: [],
-});
+const props = defineProps<Props>();
 
-onMounted(() => {
+const { filteredMessages: messages } = storeToRefs(messageStore);
+
+const route = useRoute();
+const router = useRouter();
+
+onMounted(async () => {
   //
   moment.locale("pt-br");
   moment.updateLocale("pt-br", localization);
-
-  console.log("Moment Locale: ", moment.locale());
-  console.log(
-    "De agora: ",
-    moment("2022-06-23T19:31:17.000000Z", moment.ISO_8601).fromNow()
-  );
+  await messageStore.loadNewMessages(props.messageStatus);
 });
+
+watch(route, async (newRoute: any) => {
+  console.log("NEW ROUTE PARAMS: ", newRoute);
+  await messageStore.loadNewMessages(newRoute.params.messageStatus);
+});
+
+function readMessage(messageId: number) {
+  router.push(`/read-mail/${messageId}`);
+}
 </script>

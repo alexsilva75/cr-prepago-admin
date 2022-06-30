@@ -2,12 +2,15 @@ import { defineStore } from "pinia";
 import { useAuthStore } from "./auth";
 import axios from "axios";
 import options from "../globalOptions";
+import type Message from "@/models/Message";
 
 export const useMessageStore = defineStore({
   id: "message",
   state: () => ({
     newMessagesCount: 0,
-    newMessages: [],
+    newMessages: [] as Message[],
+    filteredMessages: [] as Message[],
+    selectedMessage: {} as Message,
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -16,19 +19,19 @@ export const useMessageStore = defineStore({
     // increment() {
     //   this.counter++;
     // },
-    async loadNewMessages() {
+    async loadNewMessages(messageStatus: string = "UNREAD") {
       const authStore = useAuthStore();
       const response = await axios.get(
-        `${options.baseURL}/api/v1/messages?conditions=destinatario:=:suporte@portalcrtelecom.com.br;status:=:UNREAD`,
+        `${options.baseURL}/api/v1/messages?conditions=destinatario:=:suporte@portalcrtelecom.com.br;status:=:${messageStatus}`,
         {
           headers: {
             Authorization: `Bearer ${authStore.token}`,
           },
         }
       );
-      this.newMessages = response.data.messages;
+      this.filteredMessages = response.data.messages;
 
-      console.log("messages", this.newMessages);
+      console.log("messages", this.filteredMessages);
     },
 
     async loadNewMessagesCount() {
@@ -44,6 +47,21 @@ export const useMessageStore = defineStore({
       this.newMessagesCount = response.data.newMessages;
 
       console.log("new messages COUNT", this.newMessages);
+    },
+
+    async loadMessage(messageId: number) {
+      const authStore = useAuthStore();
+      const response = await axios.get(
+        `${options.baseURL}/api/v1/messages/${messageId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.token}`,
+          },
+        }
+      );
+      this.selectedMessage = response.data.message;
+
+      console.log("Selected Message", this.selectedMessage);
     },
   },
 });

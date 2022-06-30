@@ -5,11 +5,14 @@ import DashboardHomeView from "@/views/DashboardHomeView.vue";
 import CustomersView from "@/views/customers/CustomersView.vue";
 import ActiveTransactionsView from "@/views/transactions/ActiveTransactionsView.vue";
 import TransactionSearchViewVue from "@/views/transactions/TransactionSearchView.vue";
-import MailBoxViewVue from "@/views/MailBoxView.vue";
+import MailBoxViewVue from "@/views/mailbox/MailBoxView.vue";
 import CustomerDetailViewVue from "@/views/customers/CustomerDetailView.vue";
 import TransactionDetailViewVue from "@/views/transactions/TransactionDetailView.vue";
 import QuotaProductListViewVue from "@/views/quota-products/QuotaProductListView.vue";
 import NewQuotaViewVue from "@/views/quota-products/NewQuotaView.vue";
+import MailBoxListViewVue from "@/views/mailbox/MailBoxListView.vue";
+import ComposeViewVue from "@/views/mailbox/ComposeView.vue";
+import ReadMailViewVue from "@/views/mailbox/ReadMailView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,7 +75,27 @@ const router = createRouter({
         {
           path: "/mailbox",
           name: "mailbox",
+          redirect: "/inbox",
           component: MailBoxViewVue,
+          children: [
+            {
+              path: "/inbox/:messageStatus",
+              name: "inbox",
+              component: MailBoxListViewVue,
+              props: true,
+            },
+            {
+              path: "/compose",
+              name: "compose",
+              component: ComposeViewVue,
+            },
+            {
+              path: "/read-mail/:messageId",
+              name: "readMail",
+              component: ReadMailViewVue,
+              props: true,
+            },
+          ],
         },
       ],
     },

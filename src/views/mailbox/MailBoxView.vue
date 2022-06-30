@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <div class="col-md-3">
-      <a href="compose.html" class="btn btn-primary btn-block mb-3"
-        >Nova Mensagem</a
+      <RouterLink to="/compose" class="btn btn-primary btn-block mb-3"
+        >Nova Mensagem</RouterLink
       >
 
       <div class="card">
@@ -22,27 +22,27 @@
         <div class="card-body p-0">
           <ul class="nav nav-pills flex-column">
             <li class="nav-item active">
-              <a href="#" class="nav-link">
+              <RouterLink to="/inbox/UNREAD" class="nav-link">
                 <i class="fas fa-inbox"></i> Caixa de Entrada
                 <span class="badge bg-primary float-right">{{
                   newMessagesCount
                 }}</span>
-              </a>
+              </RouterLink>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <RouterLink to="/inbox/SENT" class="nav-link">
                 <i class="far fa-envelope"></i> Enviadas
-              </a>
+              </RouterLink>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <RouterLink to="/inbox/READ" class="nav-link">
                 <i class="far fa-envelope-open"></i> Lidas
-              </a>
+              </RouterLink>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <RouterLink to="/inbox/DELETED" class="nav-link">
                 <i class="far fa-trash-alt"></i> Lixeira
-              </a>
+              </RouterLink>
             </li>
           </ul>
         </div>
@@ -51,23 +51,21 @@
       <!-- /.card -->
     </div>
     <!-- /.col -->
-    <MailBox :messages="(newMessages as Message[])"></MailBox>
+    <!-- <component
+      :is="displayComponents[currentComponent]"
+      v-bind="currentProperties"
+    ></component> -->
+
+    <RouterView></RouterView>
   </div>
   <!-- /.row -->
 </template>
 <script lang="ts" setup>
-import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import MailBox from "@/components/MailBox.vue";
-import type Message from "@/models/Message";
 
 import { useMessageStore } from "@/stores/messages";
 
 const messageStore = useMessageStore();
 
-const { newMessages, newMessagesCount } = storeToRefs(messageStore);
-
-onMounted(async () => {
-  await messageStore.loadNewMessages();
-});
+const { newMessagesCount } = storeToRefs(messageStore);
 </script>

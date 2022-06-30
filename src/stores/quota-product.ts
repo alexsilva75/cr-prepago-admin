@@ -63,5 +63,22 @@ export const useQuotaProductStore = defineStore({
 
       this.selectedQuota = response.data.quota_product;
     },
+    async updateQuota(quota: QuotaProduct) {
+      const authStore = useAuthStore();
+      const baseURL = options.baseURL;
+      const token = authStore.token;
+
+      const response = await axios.put(
+        `${baseURL}/api/v1/quota-products/${quota.id}`,
+        quota,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      console.log("UPDATE RESPONSE: ", response);
+    },
   },
 });
