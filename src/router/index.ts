@@ -13,6 +13,7 @@ import NewQuotaViewVue from "@/views/quota-products/NewQuotaView.vue";
 import MailBoxListViewVue from "@/views/mailbox/MailBoxListView.vue";
 import ComposeViewVue from "@/views/mailbox/ComposeView.vue";
 import ReadMailViewVue from "@/views/mailbox/ReadMailView.vue";
+import ComposeReplyViewVue from "@/views/mailbox/ComposeReplyView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,6 +89,12 @@ const router = createRouter({
               path: "/compose",
               name: "compose",
               component: ComposeViewVue,
+            },
+            {
+              path: "/compose-reply/:messageId",
+              name: "composeReply",
+              component: ComposeReplyViewVue,
+              props: true,
             },
             {
               path: "/read-mail/:messageId",

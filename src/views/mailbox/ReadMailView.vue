@@ -40,22 +40,23 @@
               class="btn btn-default btn-sm"
               data-container="body"
               title="Reply"
+              @click="openReplyMessageView"
             >
               <i class="fas fa-reply"></i>
             </button>
-            <button
+            <!-- <button
               type="button"
               class="btn btn-default btn-sm"
               data-container="body"
               title="Forward"
             >
               <i class="fas fa-share"></i>
-            </button>
+            </button> -->
           </div>
           <!-- /.btn-group -->
-          <button type="button" class="btn btn-default btn-sm" title="Print">
+          <!-- <button type="button" class="btn btn-default btn-sm" title="Print">
             <i class="fas fa-print"></i>
-          </button>
+          </button> -->
         </div>
         <!-- /.mailbox-controls -->
         <div class="mailbox-read-message">
@@ -68,19 +69,23 @@
       <!-- /.card-footer -->
       <div class="card-footer">
         <div class="float-right">
-          <button type="button" class="btn btn-default">
-            <i class="fas fa-reply"></i> Reply
+          <button
+            type="button"
+            @click="openReplyMessageView"
+            class="btn btn-default"
+          >
+            <i class="fas fa-reply"></i> Responder
           </button>
-          <button type="button" class="btn btn-default">
+          <!-- <button type="button" class="btn btn-default">
             <i class="fas fa-share"></i> Forward
-          </button>
+          </button> -->
         </div>
         <button type="button" class="btn btn-default">
-          <i class="far fa-trash-alt"></i> Delete
+          <i class="far fa-trash-alt"></i> Excluir
         </button>
-        <button type="button" class="btn btn-default">
+        <!-- <button type="button" class="btn btn-default">
           <i class="fas fa-print"></i> Print
-        </button>
+        </button> -->
       </div>
       <!-- /.card-footer -->
     </div>
@@ -92,6 +97,7 @@
 import { useMessageStore } from "@/stores/messages";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 const props = defineProps({
   messageId: { type: String, required: true },
 });
@@ -100,9 +106,15 @@ const messageStore = useMessageStore();
 
 const { selectedMessage } = storeToRefs(messageStore);
 
+const router = useRouter();
+
 onMounted(async () => {
   console.log("Message Id:", props.messageId);
 
   messageStore.loadMessage(+props.messageId);
 });
+
+function openReplyMessageView() {
+  router.push("/compose-reply/" + props.messageId);
+}
 </script>

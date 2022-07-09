@@ -22,58 +22,32 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body p-0">
-        <div class="mailbox-controls">
-          <!-- Check all button -->
-          <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-            <i class="far fa-square"></i>
-          </button>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm">
-              <i class="far fa-trash-alt"></i>
-            </button>
-            <button type="button" class="btn btn-default btn-sm">
-              <i class="fas fa-reply"></i>
-            </button>
-          </div>
-          <!-- /.btn-group -->
-          <button type="button" class="btn btn-default btn-sm">
-            <i class="fas fa-sync-alt"></i>
-          </button>
-          <div class="float-right">
-            1-50/200
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button type="button" class="btn btn-default btn-sm">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
-            <!-- /.btn-group -->
-          </div>
-          <!-- /.float-right -->
-        </div>
+        <!-- MAIL BOX CONTROLS -->
+        <!-- <InboxControls></InboxControls> -->
+        <!-- MAIL BOX CONTROLS -->
+
         <div class="table-responsive mailbox-messages">
           <table
             v-if="messages.length > 0"
             class="table table-hover table-striped"
           >
             <tbody>
-              <tr
-                :key="message.id"
-                v-for="message in messages"
-                @click="readMessage(message.id)"
-              >
-                <td>
+              <tr :key="message.id" v-for="message in messages">
+                <td @click="readMessage(message.id!)">
                   <div class="icheck-primary">
-                    <input type="checkbox" value="" id="check2" />
-                    <label for="check2"></label>
+                    <!-- <input
+                      @click.stop="toggleMessage(message.id)"
+                      type="checkbox"
+                      value=""
+                      :id="'check' + message.id"
+                    />
+                    <label :for="'check' + message.id"></label> -->
                   </div>
                 </td>
-                <td class="mailbox-star">
+                <td @click="readMessage(message.id!)" class="mailbox-star">
                   <a href="#"><i class="fas fa-star-o text-warning"></i></a>
                 </td>
-                <td class="mailbox-name">
+                <td @click="readMessage(message.id!)" class="mailbox-name">
                   <RouterLink
                     :to="{
                       name: 'readMail',
@@ -82,14 +56,17 @@
                     >{{ message.remetente }}</RouterLink
                   >
                 </td>
-                <td class="mailbox-subject">
+                <td @click="readMessage(message.id!)" class="mailbox-subject">
                   <b>{{ message.assunto }}</b>
                 </td>
-                <td class="mailbox-attachment">
+                <td
+                  @click="readMessage(message.id!)"
+                  class="mailbox-attachment"
+                >
                   <!-- <i class="fas fa-paperclip"></i> -->
                 </td>
-                <td class="mailbox-date">
-                  {{ moment(message.created_at, moment.ISO_8601).fromNow() }}
+                <td @click="readMessage(message.id!)" class="mailbox-date">
+                  {{ moment(message?.created_at, moment.ISO_8601).fromNow() }}
                 </td>
               </tr>
             </tbody>
@@ -105,37 +82,7 @@
       </div>
       <!-- /.card-body -->
       <div class="card-footer p-0">
-        <div class="mailbox-controls">
-          <!-- Check all button -->
-          <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-            <i class="far fa-square"></i>
-          </button>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default btn-sm">
-              <i class="far fa-trash-alt"></i>
-            </button>
-            <button type="button" class="btn btn-default btn-sm">
-              <i class="fas fa-reply"></i>
-            </button>
-          </div>
-          <!-- /.btn-group -->
-          <button type="button" class="btn btn-default btn-sm">
-            <i class="fas fa-sync-alt"></i>
-          </button>
-          <div class="float-right">
-            1-50/200
-            <div class="btn-group">
-              <button type="button" class="btn btn-default btn-sm">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button type="button" class="btn btn-default btn-sm">
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </div>
-            <!-- /.btn-group -->
-          </div>
-          <!-- /.float-right -->
-        </div>
+        <!-- <InboxControls></InboxControls> -->
       </div>
     </div>
     <!-- /.card -->
@@ -150,6 +97,8 @@ import localization from "moment/dist/locale/pt-br";
 //import type Message from "@/models/Message";
 import { useMessageStore } from "@/stores/messages";
 import { storeToRefs } from "pinia";
+import InboxControls from "@/components/mailbox/InboxControls.vue";
+
 const messageStore = useMessageStore();
 interface Props {
   messageStatus: string;
@@ -176,5 +125,14 @@ watch(route, async (newRoute: any) => {
 
 function readMessage(messageId: number) {
   router.push(`/read-mail/${messageId}`);
+}
+
+function toggleMessage(messageId: number) {
+  console.log("CHECKED MESSAGE: ", messageId);
+  const checkMessageEl = document.getElementById(
+    `check${messageId}`
+  ) as HTMLInputElement;
+
+  checkMessageEl.checked = !checkMessageEl.checked;
 }
 </script>

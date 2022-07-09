@@ -19,7 +19,7 @@ export const useMessageStore = defineStore({
     // increment() {
     //   this.counter++;
     // },
-    async loadNewMessages(messageStatus: string = "UNREAD") {
+    async loadNewMessages(messageStatus = "UNREAD") {
       const authStore = useAuthStore();
       const response = await axios.get(
         `${options.baseURL}/api/v1/messages?conditions=destinatario:=:suporte@portalcrtelecom.com.br;status:=:${messageStatus}`,
@@ -62,6 +62,23 @@ export const useMessageStore = defineStore({
       this.selectedMessage = response.data.message;
 
       console.log("Selected Message", this.selectedMessage);
+    },
+    async sendMessage(message: Message) {
+      const authStore = useAuthStore();
+      const response = await axios.post(
+        `${options.baseURL}/api/v1/messages/`,
+        { ...message, sender_name: "Suporte CR Telecom" },
+        {
+          headers: {
+            Authorization: `Bearer ${authStore.token}`,
+          },
+        }
+      );
+
+      console.log("Send message Response: ", response);
+      if (!(response.status in [200, 204])) {
+        throw new Error("Não foi possível enviar a mensagem.");
+      }
     },
   },
 });
