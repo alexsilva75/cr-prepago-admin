@@ -76,7 +76,7 @@ export const useMessageStore = defineStore({
       );
 
       console.log("Send message Response: ", response);
-      if (!(response.status in [200, 204])) {
+      if (response.status != 200) {
         throw new Error("Não foi possível enviar a mensagem.");
       }
     },
