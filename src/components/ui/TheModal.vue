@@ -40,7 +40,7 @@ const props = defineProps({
   buttonCaption: String,
 });
 
-// const buttonAction = inject("buttonAction") as
-//   | ((payload: MouseEvent) => void)
-//   | undefined;
+const buttonAction = inject("buttonAction") as
+  | ((payload: MouseEvent) => void)
+  | undefined;
 </script>

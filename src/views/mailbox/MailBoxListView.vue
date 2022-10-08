@@ -92,8 +92,8 @@
 <script lang="ts" setup>
 import { onMounted, watch, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import moment from "moment/dist/moment";
-import localization from "moment/dist/locale/pt-br";
+import moment from "moment";
+//import localization from "moment/dist/locale/pt-br";
 //import type Message from "@/models/Message";
 import { useMessageStore } from "@/stores/messages";
 import { storeToRefs } from "pinia";
@@ -114,7 +114,7 @@ const router = useRouter();
 onMounted(async () => {
   //
   moment.locale("pt-br");
-  moment.updateLocale("pt-br", localization);
+  //moment.updateLocale("pt-br", localization);
   await messageStore.loadNewMessages(props.messageStatus);
 });
 

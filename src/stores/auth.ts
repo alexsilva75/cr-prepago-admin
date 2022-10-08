@@ -7,16 +7,32 @@ const axiosInstance = axios.create();
 
 import options from "../globalOptions";
 
+interface AuthUser {
+  username?: string;
+  name?: string;
+  email?: string;
+}
+
+interface AuthState {
+  authUser: AuthUser | null;
+  didAutoLogout: boolean;
+  token: string;
+  authError: boolean;
+  authErrorDescription: string;
+  timer: number;
+}
+
 export const useAuthStore = defineStore({
   id: "auth",
-  state: () => ({
-    authUser: null,
-    didAutoLogout: false,
-    token: "",
-    authError: false,
-    authErrorDescription: "",
-    timer: 0,
-  }),
+  state: () =>
+    ({
+      authUser: null,
+      didAutoLogout: false,
+      token: "",
+      authError: false,
+      authErrorDescription: "",
+      timer: 0,
+    } as AuthState),
   getters: {
     authToken: (state) => state.token,
     isLoggedIn: (state) => !!state.authUser,
@@ -27,8 +43,8 @@ export const useAuthStore = defineStore({
         /**Obtem o cookie do servico de autenticacao do Laravel  */
         //axios.defaults.withCredentials = true;
         const csrfCookieResponse = await axiosInstance.get(
-          `${options.baseURL}/sanctum/csrf-cookie`
-          // { withCredentials: true }
+          `${options.baseURL}/sanctum/csrf-cookie`,
+          { withCredentials: true }
         );
 
         if (csrfCookieResponse.status === 204) {

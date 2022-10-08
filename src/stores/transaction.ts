@@ -33,9 +33,9 @@ export const useTransactionStore = defineStore({
     openTransactionsCount: 0,
     paidTransactionsCount: 0,
     unpaidTransactionsCount: 0,
-    ///openTransactions: [],
-    filteredTransactions: [],
-    activeTransactions: [],
+    ///openTransactions: [] as Transaction[],
+    filteredTransactions: [] as Transaction[],
+    activeTransactions: [] as Transaction[],
     selectedTransaction: {} as Transaction | any,
     brPaymentModes: {
       banking_billet: "Boleto Bancário",
@@ -95,7 +95,7 @@ export const useTransactionStore = defineStore({
 
       const token = authStore.token;
 
-      let url = `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`;
+      const url = `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`;
 
       const response = await axios.get(url, {
         headers: {

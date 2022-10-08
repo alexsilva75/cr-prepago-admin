@@ -108,6 +108,7 @@ import { useQuotaProductStore } from "@/stores/quota-product";
 // import CurrencyInput from "../../components/ui/CurrencyInput.vue";
 import type QuotaProduct from "@/models/QuotaProduct";
 import TheSpinner from "../ui/TheSpinner.vue";
+import options from "../../globalOptions";
 
 const quotaProductStore = useQuotaProductStore();
 const router = useRouter();
@@ -169,7 +170,7 @@ async function submitForm() {
       label: formInputs.value.label,
       description: formInputs.value.description,
       price: Number.parseFloat(formInputs.value.price),
-      byte_quota: formInputs.value.byte_quota * 1000000000,
+      byte_quota: formInputs.value.byte_quota * options.ONE_GIGA,
     } as QuotaProduct);
 
     toast("O Pacote de Dados foi alterado com sucesso!", {
@@ -206,7 +207,7 @@ function parsePriceDouble(stringPrice: string) {
 }
 
 function formatQuota(quotaBytes: number) {
-  return quotaBytes / 1000000000;
+  return quotaBytes / options.ONE_GIGA;
 }
 
 const formatPrice = inject("formatPrice");

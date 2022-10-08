@@ -8,7 +8,7 @@ export const useCustomerStore = defineStore({
   state: () => ({
     connectedCustomers: 0,
     selectedLetter: "A",
-    filteredCustomers: [],
+    filteredCustomers: [] as Customer[],
     selectedCustomer: {} as Customer,
   }),
   getters: {

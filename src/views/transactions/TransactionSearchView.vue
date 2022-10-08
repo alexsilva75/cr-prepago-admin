@@ -39,22 +39,21 @@
             <tbody>
               <tr
                 :key="transaction.gn_charge_id"
-                v-for="transaction in (filteredTransactions as Transaction[])"
+                v-for="transaction in filteredTransactions"
               >
                 <td>{{ transaction.gn_charge_id }}</td>
                 <td>{{ transaction.username }}</td>
                 <td>{{ formatPrice(transaction.gn_total) }}</td>
                 <td>
                   {{
-                    moment(transaction.created_at).format(
-                      "DD/MM/YYYY  h:mm:ss",
-                      "pt-br"
-                    )
+                    moment(transaction.created_at).format("DD/MM/YYYY  h:mm:ss")
                   }}
                 </td>
                 <td>
                   {{
-                    transactionStore.brPaymentModes[transaction.payment_mode]
+                    transactionStore.brPaymentModes[
+                      transaction.payment_mode as string
+                    ]
                   }}
                 </td>
                 <td>
@@ -66,7 +65,7 @@
                   <RouterLink
                     :to="{
                       name: 'transactionDetail',
-                      params: { transactionId: transaction.id },
+                      params: { transactionId: transaction.id as number},
                     }"
                     class="btn btn-info"
                     >Detalhes</RouterLink
@@ -86,9 +85,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import * as moment from "moment";
+import moment from "moment";
 import "moment/locale/pt-br";
-import type Transaction from "../../models/Transaction";
+//import type Transaction from "../../models/Transaction";
 // import MoneyFormat from "vue-money-format";
 
 import { onMounted, watch, ref } from "vue";

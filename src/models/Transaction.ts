@@ -10,6 +10,7 @@
 import type Customer from "./Customer";
 
 export default interface Transaction {
+  id?: number;
   gn_charge_id: number;
   username: string;
   gn_total: number;
@@ -17,4 +18,5 @@ export default interface Transaction {
   gn_status: string;
   payment_mode?: string;
   cliente?: Customer;
+  quota: number;
 }

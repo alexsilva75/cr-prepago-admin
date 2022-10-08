@@ -46,15 +46,14 @@
                 <td>{{ (formatPrice as Function)(transaction.gn_total) }}</td>
                 <td>
                   {{
-                    moment(transaction.created_at).format(
-                      "DD/MM/YYYY  h:mm:ss",
-                      "pt-br"
-                    )
+                    moment(transaction.created_at).format("DD/MM/YYYY  h:mm:ss")
                   }}
                 </td>
                 <td>
                   {{
-                    transactionStore.brPaymentModes[transaction.payment_mode]
+                    transactionStore.brPaymentModes[
+                      transaction.payment_mode as string
+                    ]
                   }}
                 </td>
                 <td>
@@ -86,7 +85,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import * as moment from "moment";
+import moment from "moment";
 import "moment/locale/pt-br";
 import type Transaction from "../../models/Transaction";
 // import MoneyFormat from "vue-money-format";

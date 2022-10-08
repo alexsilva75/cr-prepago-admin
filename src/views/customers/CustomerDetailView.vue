@@ -116,7 +116,9 @@
                                 )
                               }}
                             </td>
-                            <td>{{ transaction.quota / 1000000000 }}GB</td>
+                            <td>
+                              {{ transaction.quota / options.ONE_GIGA }}GB
+                            </td>
                             <td>
                               <span
                                 :class="{
@@ -166,9 +168,9 @@ import { useCustomerStore } from "@/stores/customers";
 import { storeToRefs } from "pinia";
 import * as moment from "moment";
 import "moment/locale/pt-br";
-import type Customer from "@/models/Customer";
-import type Transaction from "@/models/Transaction";
+
 import { useTransactionStore } from "@/stores/transaction";
+import options from "../../globalOptions";
 
 const customerStore = useCustomerStore();
 const transactionStore = useTransactionStore();
@@ -180,7 +182,7 @@ const { selectedCustomer } = storeToRefs(customerStore);
 const route = useRoute();
 
 onMounted(async () => {
-  await customerStore.fetchSelectedCustomer(route.params.customerId);
+  await customerStore.fetchSelectedCustomer(+route.params.customerId);
 });
 
 watch(
@@ -191,6 +193,6 @@ watch(
 );
 
 const update = async () => {
-  await customerStore.fetchSelectedCustomer(route.params.customerId);
+  await customerStore.fetchSelectedCustomer(+route.params.customerId);
 };
 </script>

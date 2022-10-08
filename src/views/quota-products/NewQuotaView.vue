@@ -70,6 +70,7 @@ import { useRouter } from "vue-router";
 import { TYPE, useToast } from "vue-toastification";
 import { useQuotaProductStore } from "@/stores/quota-product";
 import CurrencyInput from "../../components/ui/CurrencyInput.vue";
+import options from "../../globalOptions";
 
 const quotaProductStore = useQuotaProductStore();
 const router = useRouter();
@@ -89,7 +90,7 @@ async function submitForm() {
     await quotaProductStore.saveNewQuota({
       ...formInputs.value,
       price: parsePriceDouble(formInputs.value.price),
-      byte_quota: formInputs.value.byte_quota * 1000000000,
+      byte_quota: formInputs.value.byte_quota * options.ONE_GIGA,
     });
 
     toast("Novo Pacote de Dados foi salvo com sucesso!", {

@@ -56,7 +56,7 @@ watch(
 );
 
 async function sendForm() {
-  await store.login(username.value, password.value);
+  await store.auth(username.value, password.value);
 }
 
 async function logout() {
