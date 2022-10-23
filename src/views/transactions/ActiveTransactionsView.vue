@@ -110,15 +110,15 @@ onMounted(async () => {
 
   if (!intervalId) {
     intervalId = setInterval(async () => {
-      activeTransactions.value.forEach((transaction: Transaction) => {
-        transactionStore.queryActiveTransaction({
-          charge_id: transaction.gn_charge_id,
-        });
-      });
+      // activeTransactions.value.forEach((transaction: Transaction) => {
+      //   transactionStore.queryActiveTransaction({
+      //     charge_id: transaction.gn_charge_id,
+      //   });
+      // });
 
       await transactionStore.fetchOpenTransactionsCount();
       await transactionStore.loadActiveTransactions();
-    }, 300000);
+    }, 30000);
   }
 });
 

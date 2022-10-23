@@ -95,7 +95,7 @@ export const useTransactionStore = defineStore({
 
       const token = authStore.token;
 
-      const url = `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`;
+      const url = `${baseURL}/api/v1/transacoes/active`; // `${baseURL}/api/v1/transacao?conditions=gn_status:=:waiting`;
 
       const response = await axios.get(url, {
         headers: {
@@ -132,6 +132,7 @@ export const useTransactionStore = defineStore({
       const transactions = response.data.data;
       this.filteredTransactions = transactions;
     },
+
     async queryActiveTransaction(params: any) {
       const baseURL = options.baseURL;
 
@@ -165,6 +166,7 @@ export const useTransactionStore = defineStore({
         }
       }
     }, ////
+
     async changeTransactionStatus(
       transactionId: number,
       chargeId: number,
