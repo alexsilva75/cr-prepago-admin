@@ -39,6 +39,8 @@ export const useAuthStore = defineStore({
   },
   actions: {
     async auth(username: string, password: string) {
+      this.setAuthError(false);
+      this.setAuthErrorDescription("");
       try {
         /**Obtem o cookie do servico de autenticacao do Laravel  */
         //axios.defaults.withCredentials = true;
@@ -50,7 +52,11 @@ export const useAuthStore = defineStore({
         if (csrfCookieResponse.status === 204) {
           await this.login(username, password);
         } else {
-          throw new Error(`Erro ao tentar estabelecer sessão.`);
+          //throw new Error(`Erro ao tentar estabelecer sessão.`);
+          this.setAuthError(true);
+          this.setAuthErrorDescription(
+            "Não foi possível estabelecer uma sessão com o servidor."
+          );
         }
       } catch (error) {
         console.log(error);
@@ -80,7 +86,16 @@ export const useAuthStore = defineStore({
              * Trata-se de um bug no Fortify. Então usam-se os dados
              * armazenados no browser DB.
              */
-            console.log("Login Error: ", error);
+            console.log("Login Error: ", error.response);
+            this.setAuthError(true);
+
+            if (error.response.status === 422) {
+              const errors = error.response.data.errors;
+
+              if (errors["username"]) {
+                this.setAuthErrorDescription(errors["username"][0]);
+              }
+            }
             if (error.response.status === 404) {
               await this.logout();
               const response = await axiosInstance
@@ -104,9 +119,11 @@ export const useAuthStore = defineStore({
           })) as any;
 
         console.log("Login Response: ", response);
-        if (response.status === 200) {
-          this.setAuthUser(response.data);
-          this.setAuthError(false);
+        if (response) {
+          if (response.status === 200) {
+            this.setAuthUser(response.data);
+            this.setAuthError(false);
+          }
         }
       } catch (error) {
         console.log("Login error: ", error);

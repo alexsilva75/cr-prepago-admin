@@ -25,6 +25,12 @@ export const useCustomerStore = defineStore({
           },
         }
       );
+
+      console.log("Connected customers: ", response);
+
+      if (response) {
+        this.connectedCustomers = response.data.activeConns;
+      }
     },
 
     async loadFilteredCustomers() {

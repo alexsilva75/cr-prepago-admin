@@ -3,7 +3,7 @@
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
   "compilerOptions": {
     "composite": true,
-    "types": ["node"],
-    "target": "es2020"
+    "types": ["node"]
+    // "target": "es2020"
   }
 }

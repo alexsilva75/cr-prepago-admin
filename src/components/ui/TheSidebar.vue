@@ -92,6 +92,12 @@
             </RouterLink>
           </li>
           <li class="nav-item">
+            <RouterLink to="/quota" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>Cota Diária</p>
+            </RouterLink>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>

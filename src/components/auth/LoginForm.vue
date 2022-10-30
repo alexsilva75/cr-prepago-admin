@@ -37,12 +37,15 @@
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { TYPE, useToast } from "vue-toastification";
 
 const username = ref("");
 const password = ref("");
 
 const store = useAuthStore();
 const router = useRouter();
+
+const toast = useToast();
 
 watch(
   () => store.isLoggedIn,
@@ -51,6 +54,20 @@ watch(
     if (newValue) {
       console.log("You are logged in!");
       router.replace("/dashboard");
+    }
+  }
+);
+
+watch(
+  () => store.authError,
+  (newValue) => {
+    if (newValue) {
+      toast(
+        `Não foi possível realizar o login. ${store.authErrorDescription}`,
+        {
+          type: TYPE.ERROR, // or "success", "error", "default", "info" and "warning"
+        }
+      );
     }
   }
 );
