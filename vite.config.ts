@@ -7,7 +7,7 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   base: "/cr_adm/",
   build: {
-    //target: "es2020",
+    target: "es2020",
   },
   plugins: [vue()],
   resolve: {
