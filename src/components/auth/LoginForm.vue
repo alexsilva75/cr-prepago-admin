@@ -1,4 +1,5 @@
 <template>
+  <OverlaySpinner v-if="isLoading" />
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6 flex-1 mt-5">
@@ -38,9 +39,11 @@ import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { TYPE, useToast } from "vue-toastification";
+import OverlaySpinner from "@/components/ui/OverlaySpinner.vue";
 
 const username = ref("");
 const password = ref("");
+const isLoading = ref(false);
 
 const store = useAuthStore();
 const router = useRouter();
@@ -73,7 +76,9 @@ watch(
 );
 
 async function sendForm() {
+  isLoading.value = true;
   await store.auth(username.value, password.value);
+  isLoading.value = false;
 }
 
 async function logout() {

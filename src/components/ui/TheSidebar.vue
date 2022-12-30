@@ -125,6 +125,12 @@
               </li> -->
             </ul>
           </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/connected-users">
+              <i class="nav-icon fas fa-solid fa-users"></i>
+              <p>Usuários Conectados</p>
+            </RouterLink>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

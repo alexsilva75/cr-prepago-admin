@@ -65,9 +65,9 @@
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="#" class="small-box-footer"
+        <RouterLink to="/connected-users" class="small-box-footer"
           >Detalhes <i class="fas fa-arrow-circle-right"></i
-        ></a>
+        ></RouterLink>
       </div>
     </div>
     <!-- ./col -->
@@ -78,6 +78,7 @@
 import { onMounted } from "vue";
 import { useTransactionStore } from "../stores/transaction";
 import { useCustomerStore } from "@/stores/customers";
+import { RouterLink } from "vue-router";
 
 const transactionStore = useTransactionStore();
 const customerStore = useCustomerStore();

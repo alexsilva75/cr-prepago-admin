@@ -15,6 +15,7 @@ import ComposeViewVue from "@/views/mailbox/ComposeView.vue";
 import ReadMailViewVue from "@/views/mailbox/ReadMailView.vue";
 import ComposeReplyViewVue from "@/views/mailbox/ComposeReplyView.vue";
 import DailyQuotaViewVue from "@/views/quota/DailyQuotaView.vue";
+import ActiveSessions from "@/views/sessions/ActiveSessions.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,6 +111,10 @@ const router = createRouter({
               props: true,
             },
           ],
+        },
+        {
+          path: "/connected-users",
+          component: ActiveSessions,
         },
       ],
     },

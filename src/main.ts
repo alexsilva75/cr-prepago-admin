@@ -13,6 +13,8 @@ import router from "./router";
 const app = createApp(App);
 
 axios.defaults.withCredentials = true;
+axios.defaults.xsrfCookieName = "XSRF-TOKEN";
+axios.defaults.xsrfHeaderName = "X-XSRF-TOKEN";
 
 app.use(createPinia());
 app.use(router);

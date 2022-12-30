@@ -9,8 +9,9 @@ const translateMailErrors: translateObjectType = {
 };
 
 export default {
-  baseURL: "http://pre-pago.portalcrtelecom.com.br",
-  //baseURL: "http://localhost:8000",
+  //baseURL: "https://pre-pago.portalcrtelecom.com.br",
+  //baseURL: "http://192.168.1.107:8000",
+  baseURL: "http://localhost:8000",
   ONE_GIGA: 1000000000.0,
   translate: {
     apiErrors: {

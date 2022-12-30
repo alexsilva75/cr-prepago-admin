@@ -3,7 +3,7 @@ import axios from "axios";
 
 import router from "../router";
 //const axiosInstance = axios.create({ withCredentials: true });
-const axiosInstance = axios.create();
+//const axiosInstance = axios.create();
 
 import options from "../globalOptions";
 
@@ -44,9 +44,9 @@ export const useAuthStore = defineStore({
       try {
         /**Obtem o cookie do servico de autenticacao do Laravel  */
         //axios.defaults.withCredentials = true;
-        const csrfCookieResponse = await axiosInstance.get(
-          `${options.baseURL}/sanctum/csrf-cookie`,
-          { withCredentials: true }
+        const csrfCookieResponse = await axios.get(
+          `${options.baseURL}/sanctum/csrf-cookie`
+          //    { withCredentials: true }
         );
 
         if (csrfCookieResponse.status === 204) {
@@ -78,6 +78,7 @@ export const useAuthStore = defineStore({
                 Accept: "application/json",
                 "X-Requested-With": "XMLHttpRequest",
               },
+              withCredentials: true,
             }
           )
           .catch(async (error) => {
@@ -98,7 +99,7 @@ export const useAuthStore = defineStore({
             }
             if (error.response.status === 404) {
               await this.logout();
-              const response = await axiosInstance
+              const response = await axios
                 .post(
                   `${options.baseURL}/api/v1/auth/login`,
                   {
@@ -154,7 +155,7 @@ export const useAuthStore = defineStore({
     },
 
     async logout() {
-      const response = await axiosInstance
+      const response = await axios
         .post(
           `${options.baseURL}/api/v1/auth/logout`,
           {},
@@ -218,7 +219,7 @@ export const useAuthStore = defineStore({
     },
 
     async fetchToken() {
-      const tokenData = await axiosInstance
+      const tokenData = await axios
         .get(`${options.baseURL}/api/v1/token/create`, {
           withCredentials: true,
         })
